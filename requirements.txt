@@ -1,0 +1,8 @@
+# Core (torch is preinstalled on Kaggle; listed for local reproducibility)
+torch>=2.1
+transformers>=4.40,<5
+peft>=0.10
+datasets>=2.18
+accelerate>=0.29
+numpy
+tqdm
