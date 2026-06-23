@@ -28,11 +28,12 @@ PROMPT_TEMPLATE = "Question: {q}\nAnswer:"  # MUST match prepare_data.py
 
 
 def extract_pred(text: str) -> str:
-    if "####" in text:
-        text = text.split("####")[-1]
-    text = text.replace(",", "").replace("$", "")
-    nums = re.findall(r"-?\d+\.?\d*", text)
-    return nums[-1] if nums else ""
+    # Strict: require the model to emit the final-answer marker.
+    if "####" not in text:
+        return ""                       # no marker => no valid answer
+    tail = text.split("####")[-1].replace(",", "").replace("$", "")
+    nums = re.findall(r"-?\d+\.?\d*", tail)
+    return nums[0] if nums else ""       # answer is the number right after ####
 
 
 def is_correct(pred: str, gold: str) -> bool:
