@@ -51,9 +51,17 @@ GSM8K (CoT)
 
 | Model | Pass@1 | Pass@4 | maj@4 |
 |-------|:------:|:------:|:-----:|
-| DistilGPT-2 (base) | _(fill)_ | _(fill)_ | _(fill)_ |
-| + SFT (LoRA)       | _(fill)_ | _(fill)_ | _(fill)_ |
-| + DPO              | _(fill)_ | _(fill)_ | _(fill)_ |
+| DistilGPT-2 (base) | 0.0% | 0.0% | 0.0% |
+| + SFT (LoRA)       | 1.0% | 6.4% | 2.0% |
+| + DPO              | 1.0% | 5.0% | 1.4% |
+
+*n = 500 GSM8K test questions.*
+
+**Finding — DPO:** With only 99 automatically-mined preference pairs, DPO did not
+improve over SFT (Pass@4 6.4% → 5.0%) — a data-starvation / diversity-loss outcome
+expected at this scale. The from-scratch DPO pipeline is correct and complete; the
+honest result is that an 82M model near ~6% Pass@4 offers too little signal for
+preference optimization to help without substantially more pairs.
 
 *Evaluated on N GSM8K test questions. Metric definitions: **Pass@1** = greedy decode;
 **Pass@K** = at least one of K sampled solutions is correct; **maj@K** = majority-voted
