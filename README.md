@@ -46,8 +46,6 @@ GSM8K (CoT)
 
 ## Results
 
-> Numbers below are filled in after running on Kaggle (T4). `base` is the untuned
-> DistilGPT-2 and is expected to be ~0% — it doesn't follow the answer format at all.
 
 | Model | Pass@1 | Pass@4 | maj@4 |
 |-------|:------:|:------:|:-----:|
