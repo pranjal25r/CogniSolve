@@ -1,8 +1,9 @@
 """
 train_sft.py — Supervised fine-tuning of DistilGPT2 on GSM8K CoT with LoRA (PEFT).
 
-Key choices (all defensible in interview):
-  * LoRA adapters on GPT2 attention projections (c_attn, c_proj) -> ~0.5-1% trainable params.
+Key choices:
+  * LoRA adapters on GPT2 c_attn (fused QKV) and c_proj (matches both the attention output
+    projection and the MLP down-projection) -> ~1% trainable params.
   * Prompt tokens are MASKED in the loss (labels=-100) so the model is only trained to
     PRODUCE the answer, not to memorize/echo the question.
   * Causal LM objective on the answer span only.

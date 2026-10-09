@@ -1,7 +1,7 @@
 """
 evaluate.py — Pass@1, Pass@K and maj@K on GSM8K test for base / SFT / DPO models.
 
-Metric definitions (state these in interviews):
+Metric definitions:
   * Pass@1  : single greedy decode; correct if the extracted final answer matches gold.
   * Pass@K  : draw K sampled completions; correct if ANY is right (covers reasoning diversity).
   * maj@K   : self-consistency — take the majority-voted final answer across K samples.
@@ -9,7 +9,7 @@ Metric definitions (state these in interviews):
 Writes results/metrics.json and prints a comparison table.
 
 Run:
-  python src/evaluate.py --models base sft dpo --num-test 200 --k 4
+  python src/evaluate.py --models base sft dpo --num-test 500 --k 4
 """
 import argparse
 import json

@@ -53,21 +53,18 @@ GSM8K (CoT)
 | + SFT (LoRA)       | 1.0% | 6.4% | 2.0% |
 | + DPO              | 1.0% | 5.0% | 1.4% |
 
-*n = 500 GSM8K test questions.*
+*n = 500 GSM8K test questions. **Pass@1** = greedy decode; **Pass@K** = at least one of K
+sampled solutions is correct; **maj@K** = majority-voted final answer across K samples.*
 
-**Finding — DPO:** With only 99 automatically-mined preference pairs, DPO did not
-improve over SFT (Pass@4 6.4% → 5.0%) — a data-starvation / diversity-loss outcome
-expected at this scale. The from-scratch DPO pipeline is correct and complete; the
-honest result is that an 82M model near ~6% Pass@4 offers too little signal for
-preference optimization to help without substantially more pairs.
+**Finding — SFT:** The base model scores 0% because it never emits the `####` answer
+marker the evaluator requires. SFT teaches the chain-of-thought and answer format,
+reaching 1.0% Pass@1 and 6.4% Pass@4.
 
-*Evaluated on N GSM8K test questions. Metric definitions: **Pass@1** = greedy decode;
-**Pass@K** = at least one of K sampled solutions is correct; **maj@K** = majority-voted
-final answer across K samples.*
-
-**Headline takeaways (fill after run):**
-- SFT lifts Pass@1 from ~0% → __%, teaching the model the chain-of-thought format.
-- DPO raises Pass@1 by __ points over SFT by down-weighting flawed reasoning paths.
+**Finding — DPO:** With only 99 automatically-mined preference pairs, DPO did not improve
+over SFT. The Pass@4 difference (6.4% vs 5.0%, i.e. 32 vs 25 of 500 questions) is within
+noise at this sample size, so the result is "no improvement", not "DPO hurt". An 82M
+model near ~6% Pass@4 produces too few correct solutions to mine enough preference pairs
+for DPO to help.
 
 ---
 
@@ -80,7 +77,7 @@ python src/prepare_data.py                       # → data/sft_train.jsonl, dat
 python src/train_sft.py --epochs 3               # → checkpoints/sft
 python src/build_preferences.py --num-questions 1500 --k 4   # → data/prefs.jsonl
 python src/train_dpo.py --epochs 2 --beta 0.1    # → checkpoints/dpo
-python src/evaluate.py --models base sft dpo --num-test 200 --k 4   # → results/metrics.json
+python src/evaluate.py --models base sft dpo --num-test 500 --k 4   # → results/metrics.json
 ```
 
 All scripts are self-contained (inline helpers, no cross-module imports) and take CLI
