@@ -129,7 +129,7 @@ def main():
     ap.add_argument("--sft", default=str(PROJECT_ROOT / "checkpoints" / "sft"))
     ap.add_argument("--dpo", default=str(PROJECT_ROOT / "checkpoints" / "dpo"))
     ap.add_argument("--out", default=str(PROJECT_ROOT / "results" / "metrics.json"))
-    ap.add_argument("--num-test", type=int, default=200)
+    ap.add_argument("--num-test", type=int, default=500)
     ap.add_argument("--k", type=int, default=4)
     ap.add_argument("--max-new-tokens", type=int, default=200)
     ap.add_argument("--temperature", type=float, default=0.8)
